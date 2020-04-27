@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">TaskReminderApp</string>
+    <string name="toolbar_title">Daily Log</string>
 </resources>
