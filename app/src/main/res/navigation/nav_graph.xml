@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/logListFragment"
+    tools:ignore="UnusedNavigation">
+
+    <fragment
+        android:id="@+id/logListFragment"
+        android:name="com.example.taskreminderapp.ui.LogListFragment"
+        android:label="LogListFragment">
+        <action
+            android:id="@+id/action_logListFragment_to_logDetailFragment"
+            app:destination="@id/logDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/logDetailFragment"
+        android:name="com.example.taskreminderapp.ui.LogDetailFragment"
+        android:label="LogDetailFragment" />
+</navigation>

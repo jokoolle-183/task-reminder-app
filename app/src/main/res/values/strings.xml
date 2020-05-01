@@ -1,4 +1,13 @@
 <resources>
     <string name="app_name">TaskReminderApp</string>
     <string name="toolbar_title">Daily Log</string>
+    <string name="log_details">Log Details</string>
+    <string name="log_title_hint">Log title...</string>
+    <string name="log_detail_title">Title:</string>
+    <string name="log_type">Type:</string>
+
+    <string-array name="type_array">
+        <item>Task</item>
+        <item>Event</item>
+    </string-array>
 </resources>

@@ -6,4 +6,6 @@
     <color name="white">#fff</color>
     <color name="black">#000</color>
     <color name="teal">#009688</color>
+    <color name="grayish">#B3B2B2</color>
+    <color name="teal_dark">#007C70</color>
 </resources>
