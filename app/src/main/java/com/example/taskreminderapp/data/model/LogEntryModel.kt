@@ -12,7 +12,7 @@ data class LogEntryModel(
     val type: LogType? = null
 )
 
-enum class LogType {
-    TASK,
-    EVENT
+enum class LogType(value: String) {
+    TASK("task"),
+    EVENT("event");
 }
