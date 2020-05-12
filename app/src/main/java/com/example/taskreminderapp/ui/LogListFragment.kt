@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.taskreminderapp.LogViewModel
 import com.example.taskreminderapp.R
 import com.example.taskreminderapp.data.model.LogEntryModel
-import com.example.taskreminderapp.data.model.LogType
 import com.example.taskreminderapp.ui.adapter.LogListAdapter
 import dagger.android.support.DaggerFragment
 import io.reactivex.disposables.CompositeDisposable
@@ -45,8 +44,6 @@ class LogListFragment : DaggerFragment() {
             rvLogList.adapter = logListAdapter
             rvLogList.layoutManager = LinearLayoutManager(context)
 
-
-            populateAdapter()
             fabAddTask.setOnClickListener {
                 findNavController().navigate(R.id.action_logListFragment_to_logDetailFragment)
             }
@@ -55,7 +52,8 @@ class LogListFragment : DaggerFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        logViewModel = ViewModelProvider(this, viewModelFactory).get(LogViewModel::class.java)
+        logViewModel =
+            ViewModelProvider(requireActivity(), viewModelFactory).get(LogViewModel::class.java)
 
         logViewModel.getLogList()
             .subscribeBy(
@@ -80,15 +78,6 @@ class LogListFragment : DaggerFragment() {
 
     private fun displayLogList(list: List<LogEntryModel>) {
         noTasksMessage.visibility = View.GONE
-        logListAdapter.loadList(list)
-    }
-
-    private fun populateAdapter() {
-        val list = arrayListOf(
-            LogEntryModel(title = "Cestitaj Mikici rodjendan", type = LogType.TASK),
-            LogEntryModel(title = "Reci da je volis", type = LogType.TASK),
-            LogEntryModel(title = "Ljubaaav", type = LogType.EVENT)
-        )
         logListAdapter.loadList(list)
     }
 }

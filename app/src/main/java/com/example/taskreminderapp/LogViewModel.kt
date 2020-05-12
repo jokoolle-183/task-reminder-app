@@ -11,7 +11,9 @@ import javax.inject.Inject
 class LogViewModel @Inject constructor(private val logRepository: LogRepository) : ViewModel() {
 
     fun saveLogEntry(logEntryModel: LogEntryModel): Completable {
-        return Completable.never()
+        return logRepository.saveLogEntry(logEntryModel)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
     }
 
     fun getLogList(): Observable<List<LogEntryModel>> {

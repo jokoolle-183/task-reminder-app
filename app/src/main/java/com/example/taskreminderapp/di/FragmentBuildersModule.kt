@@ -2,6 +2,7 @@ package com.example.taskreminderapp.di
 
 import androidx.lifecycle.ViewModel
 import com.example.taskreminderapp.LogViewModel
+import com.example.taskreminderapp.ui.LogDetailFragment
 import com.example.taskreminderapp.ui.LogListFragment
 import dagger.Binds
 import dagger.Module
@@ -12,6 +13,9 @@ import dagger.multibindings.IntoMap
 abstract class FragmentBuildersModule {
     @ContributesAndroidInjector(modules = [ViewModelProviderFactoryModule::class])
     abstract fun contributeLogListFragment(): LogListFragment
+
+    @ContributesAndroidInjector(modules = [ViewModelProviderFactoryModule::class])
+    abstract fun contributeLogDetailFragment(): LogDetailFragment
 
     @Binds
     @IntoMap
