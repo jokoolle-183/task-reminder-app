@@ -2,6 +2,7 @@ package com.example.taskreminderapp.data.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.util.*
 
 @Entity
 data class LogEntryModel(
@@ -12,7 +13,11 @@ data class LogEntryModel(
     val type: LogType? = null
 )
 
-enum class LogType(value: String) {
+enum class LogType(val value: String) {
     TASK("task"),
     EVENT("event");
+
+    override fun toString(): String {
+        return value.toLowerCase(Locale.getDefault())
+    }
 }

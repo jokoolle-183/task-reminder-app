@@ -2,9 +2,9 @@ package com.example.taskreminderapp.di
 
 import android.app.Application
 import androidx.room.Room
-import com.example.taskreminderapp.LogRepository
-import com.example.taskreminderapp.data.LogDao
-import com.example.taskreminderapp.data.LogDatabase
+import com.example.taskreminderapp.data.source.LogRepository
+import com.example.taskreminderapp.data.source.db.LogDao
+import com.example.taskreminderapp.data.source.db.LogDatabase
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton

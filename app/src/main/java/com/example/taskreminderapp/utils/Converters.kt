@@ -1,4 +1,4 @@
-package com.example.taskreminderapp
+package com.example.taskreminderapp.utils
 
 import androidx.room.TypeConverter
 import com.example.taskreminderapp.data.model.LogType

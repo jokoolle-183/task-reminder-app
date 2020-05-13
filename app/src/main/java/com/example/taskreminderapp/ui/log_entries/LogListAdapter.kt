@@ -1,4 +1,4 @@
-package com.example.taskreminderapp.ui.adapter
+package com.example.taskreminderapp.ui.log_entries
 
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +10,8 @@ import com.example.taskreminderapp.data.model.LogEntryModel
 import com.example.taskreminderapp.data.model.LogType
 import kotlinx.android.synthetic.main.item_log_entry.view.*
 
-class LogListAdapter : RecyclerView.Adapter<LogListAdapter.LogViewHolder>() {
+class LogListAdapter(private val onDeleteClickListener: OnDeleteClickListener) :
+    RecyclerView.Adapter<LogListAdapter.LogViewHolder>() {
 
     private var itemList: MutableList<LogEntryModel> = mutableListOf()
 
@@ -42,7 +43,7 @@ class LogListAdapter : RecyclerView.Adapter<LogListAdapter.LogViewHolder>() {
                 logEntry?.let { log ->
                     when (log.type) {
                         LogType.TASK -> {
-                            logImage.setImageDrawable(
+                            typeIcon.setImageDrawable(
                                 ContextCompat.getDrawable(
                                     context,
                                     R.drawable.ic_black_dot
@@ -51,7 +52,7 @@ class LogListAdapter : RecyclerView.Adapter<LogListAdapter.LogViewHolder>() {
                         }
 
                         LogType.EVENT -> {
-                            logImage.setImageDrawable(
+                            typeIcon.setImageDrawable(
                                 ContextCompat.getDrawable(
                                     context,
                                     R.drawable.ic_star_black_
@@ -61,8 +62,16 @@ class LogListAdapter : RecyclerView.Adapter<LogListAdapter.LogViewHolder>() {
                     }
 
                     logTitle.text = log.title
+
+                    deleteIcon.setOnClickListener {
+                        onDeleteClickListener.onDeleteClick(logEntry)
+                    }
                 }
             }
         }
+    }
+
+    interface OnDeleteClickListener {
+        fun onDeleteClick(logEntry: LogEntryModel)
     }
 }

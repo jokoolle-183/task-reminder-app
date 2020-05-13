@@ -1,6 +1,7 @@
-package com.example.taskreminderapp.data
+package com.example.taskreminderapp.data.source.db
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import com.example.taskreminderapp.data.model.LogEntryModel
@@ -11,8 +12,11 @@ import io.reactivex.Observable
 interface LogDao {
 
     @Insert
-    fun insertLog(logEntryModel: LogEntryModel): Completable
+    fun insertLogEntry(logEntryModel: LogEntryModel): Completable
 
     @Query("SELECT * from logentrymodel")
-    fun getLogs(): Observable<List<LogEntryModel>>
+    fun getLogEntries(): Observable<List<LogEntryModel>>
+
+    @Delete
+    fun deleteLogEntry(logEntryModel: LogEntryModel): Completable
 }

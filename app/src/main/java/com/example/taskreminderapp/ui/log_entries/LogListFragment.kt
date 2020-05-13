@@ -1,18 +1,17 @@
-package com.example.taskreminderapp.ui
+package com.example.taskreminderapp.ui.log_entries
 
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.taskreminderapp.LogViewModel
 import com.example.taskreminderapp.R
 import com.example.taskreminderapp.data.model.LogEntryModel
-import com.example.taskreminderapp.ui.adapter.LogListAdapter
 import dagger.android.support.DaggerFragment
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.subscribeBy
@@ -20,7 +19,7 @@ import kotlinx.android.synthetic.main.fragment_log_list.*
 import kotlinx.android.synthetic.main.fragment_log_list.view.*
 import javax.inject.Inject
 
-class LogListFragment : DaggerFragment() {
+class LogListFragment : DaggerFragment(), LogListAdapter.OnDeleteClickListener {
 
     private lateinit var rvLogList: RecyclerView
     private lateinit var logListAdapter: LogListAdapter
@@ -28,7 +27,7 @@ class LogListFragment : DaggerFragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private lateinit var logViewModel: LogViewModel
+    private lateinit var logListViewModel: LogListViewModel
 
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
@@ -38,7 +37,7 @@ class LogListFragment : DaggerFragment() {
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_log_list, container, false).apply {
-            logListAdapter = LogListAdapter()
+            logListAdapter = LogListAdapter(this@LogListFragment)
 
             rvLogList = recyclerView
             rvLogList.adapter = logListAdapter
@@ -52,16 +51,17 @@ class LogListFragment : DaggerFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        logViewModel =
-            ViewModelProvider(requireActivity(), viewModelFactory).get(LogViewModel::class.java)
+        logListViewModel =
+            ViewModelProvider(this, viewModelFactory).get(LogListViewModel::class.java)
 
-        logViewModel.getLogList()
+        logListViewModel.getLogList()
             .subscribeBy(
                 onNext = { logList ->
-                    if (logList.isNotEmpty()) {
-                        displayLogList(logList)
-                    } else {
+                    if (logList.isEmpty()) {
+                        populateLogList(logList)
                         renderNoTasksMessage()
+                    } else {
+                        populateLogList(logList)
                     }
                 },
                 onError = {
@@ -76,8 +76,27 @@ class LogListFragment : DaggerFragment() {
         noTasksMessage.visibility = View.VISIBLE
     }
 
-    private fun displayLogList(list: List<LogEntryModel>) {
+    private fun populateLogList(list: List<LogEntryModel>) {
         noTasksMessage.visibility = View.GONE
         logListAdapter.loadList(list)
+    }
+
+    override fun onDeleteClick(logEntry: LogEntryModel) {
+        logListViewModel.deleteLogEntry(logEntry).subscribeBy(
+            onComplete = {
+                Toast.makeText(context, "Entry deleted!", Toast.LENGTH_SHORT).show()
+            },
+            onError = {
+                Log.d("OnDeleteClick", "Error deleting entry: $it")
+                Toast.makeText(context, "Failed to delete entry.", Toast.LENGTH_SHORT).show()
+            }
+        ).apply {
+            compositeDisposable.add(this)
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        compositeDisposable.clear()
     }
 }

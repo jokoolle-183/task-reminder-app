@@ -1,4 +1,4 @@
-package com.example.taskreminderapp.ui
+package com.example.taskreminderapp.ui.add_log_entry
 
 import android.os.Bundle
 import android.util.Log
@@ -9,7 +9,6 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.example.taskreminderapp.LogViewModel
 import com.example.taskreminderapp.R
 import com.example.taskreminderapp.data.model.LogEntryModel
 import com.example.taskreminderapp.data.model.LogType
@@ -17,14 +16,15 @@ import dagger.android.support.DaggerFragment
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.subscribeBy
 import kotlinx.android.synthetic.main.fragment_log_detail.*
+import java.util.*
 import javax.inject.Inject
 
-class LogDetailFragment : DaggerFragment() {
+class AddLogEntryFragment : DaggerFragment() {
 
     @Inject
     protected lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private lateinit var logViewModel: LogViewModel
+    private lateinit var addLogEntryViewModel: AddLogEntryViewModel
 
     private val compositeDisposable = CompositeDisposable()
 
@@ -53,17 +53,22 @@ class LogDetailFragment : DaggerFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        logViewModel =
-            ViewModelProvider(requireActivity(), viewModelFactory).get(LogViewModel::class.java)
+        addLogEntryViewModel =
+            ViewModelProvider(
+                requireActivity(),
+                viewModelFactory
+            ).get(AddLogEntryViewModel::class.java)
 
         fabSave.setOnClickListener {
-            logViewModel.saveLogEntry(
+            val logType =
+                getLogType(spinner.selectedItem.toString().toLowerCase(Locale.getDefault()))
+
+            addLogEntryViewModel.saveLogEntry(
                 LogEntryModel(
                     title = etTitle.text.toString(),
-                    type = LogType.EVENT
+                    type = logType
                 )
-            )
-                .subscribeBy(
+            ).subscribeBy(
                     onComplete = {
                         Toast.makeText(context, "Log entry saved!", Toast.LENGTH_SHORT).show()
                     },
@@ -79,6 +84,17 @@ class LogDetailFragment : DaggerFragment() {
                     compositeDisposable.add(this)
                 }
             findNavController().navigate(R.id.logListFragment)
+        }
+    }
+
+    private fun getLogType(selectedItem: String): LogType {
+        return when (selectedItem) {
+            LogType.TASK.toString() -> {
+                LogType.TASK
+            }
+            else -> {
+                LogType.EVENT
+            }
         }
     }
 }

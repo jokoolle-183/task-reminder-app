@@ -1,9 +1,10 @@
 package com.example.taskreminderapp.di
 
 import androidx.lifecycle.ViewModel
-import com.example.taskreminderapp.LogViewModel
-import com.example.taskreminderapp.ui.LogDetailFragment
-import com.example.taskreminderapp.ui.LogListFragment
+import com.example.taskreminderapp.ui.add_log_entry.AddLogEntryFragment
+import com.example.taskreminderapp.ui.add_log_entry.AddLogEntryViewModel
+import com.example.taskreminderapp.ui.log_entries.LogListFragment
+import com.example.taskreminderapp.ui.log_entries.LogListViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -15,13 +16,15 @@ abstract class FragmentBuildersModule {
     abstract fun contributeLogListFragment(): LogListFragment
 
     @ContributesAndroidInjector(modules = [ViewModelProviderFactoryModule::class])
-    abstract fun contributeLogDetailFragment(): LogDetailFragment
+    abstract fun contributeLogDetailFragment(): AddLogEntryFragment
 
     @Binds
     @IntoMap
-    @ViewModelKey(LogViewModel::class)
-    abstract fun bindViewModel(logViewModel: LogViewModel): ViewModel
+    @ViewModelKey(LogListViewModel::class)
+    abstract fun bindLogListViewModel(logViewModel: LogListViewModel): ViewModel
 
-//    @ContributesAndroidInjector(modules = [ViewModelModule::class, ViewModelProviderFactoryModule::class])
-//    abstract fun contributeLogDetailFragment(): LogDetailFragment
+    @Binds
+    @IntoMap
+    @ViewModelKey(AddLogEntryViewModel::class)
+    abstract fun bindAddLogEntryViewModel(addLogEntryViewModel: AddLogEntryViewModel): ViewModel
 }
