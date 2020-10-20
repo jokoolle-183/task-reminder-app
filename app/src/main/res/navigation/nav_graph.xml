@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/logListFragment"
-    tools:ignore="UnusedNavigation">
+    app:startDestination="@id/logListFragment">
 
     <fragment
         android:id="@+id/logListFragment"
         android:name="com.example.taskreminderapp.ui.log_entries.LogListFragment"
-        android:label="LogListFragment">
+        android:label="All logs">
         <action
             android:id="@+id/action_logListFragment_to_logDetailFragment"
             app:destination="@id/logDetailFragment" />
@@ -17,5 +15,5 @@
     <fragment
         android:id="@+id/logDetailFragment"
         android:name="com.example.taskreminderapp.ui.add_log_entry.AddLogEntryFragment"
-        android:label="LogDetailFragment" />
+        android:label="Create log" />
 </navigation>

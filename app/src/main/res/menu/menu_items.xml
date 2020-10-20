@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/allLogs"
+        android:icon="@drawable/ic_view_list"
+        android:title="@string/menu_all_logs" />
+
+    <item
+        android:id="@+id/inbox"
+        android:icon="@drawable/ic_inbox"
+        android:title="@string/menu_inbox" />
+</menu>
