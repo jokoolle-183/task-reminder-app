@@ -6,6 +6,9 @@
     <string name="log_detail_title">Title:</string>
     <string name="log_type">Type:</string>
     <string name="no_tasks_message">No tasks for today</string>
+    <string name="menu_all_logs">All Logs</string>
+    <string name="menu_inbox">Inbox</string>
+    <string name="header_task_reminder">Task Reminder</string>
 
     <string-array name="type_array">
         <item>Task</item>

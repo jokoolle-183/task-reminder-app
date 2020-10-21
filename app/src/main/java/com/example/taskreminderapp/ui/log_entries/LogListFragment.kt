@@ -1,5 +1,6 @@
 package com.example.taskreminderapp.ui.log_entries
 
+import android.app.Activity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -7,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
+import androidx.navigation.Navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taskreminderapp.R
@@ -42,11 +43,14 @@ class LogListFragment : DaggerFragment(), LogListAdapter.OnDeleteClickListener {
             rvLogList = recyclerView
             rvLogList.adapter = logListAdapter
             rvLogList.layoutManager = LinearLayoutManager(context)
-
-            fabAddTask.setOnClickListener {
-                findNavController().navigate(R.id.action_logListFragment_to_logDetailFragment)
-            }
         }
+    }
+
+    private fun navigateToAddTask(activity: Activity) {
+        findNavController(
+            activity,
+            R.id.nav_host_fragment
+        ).navigate(R.id.action_logListFragment_to_logDetailFragment)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -70,6 +74,10 @@ class LogListFragment : DaggerFragment(), LogListAdapter.OnDeleteClickListener {
             ).apply {
                 compositeDisposable.add(this)
             }
+
+        fabAddTask.setOnClickListener {
+            navigateToAddTask(requireActivity())
+        }
     }
 
     private fun renderNoTasksMessage() {

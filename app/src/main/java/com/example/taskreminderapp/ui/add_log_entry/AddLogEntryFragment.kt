@@ -69,21 +69,21 @@ class AddLogEntryFragment : DaggerFragment() {
                     type = logType
                 )
             ).subscribeBy(
-                    onComplete = {
-                        Toast.makeText(context, "Log entry saved!", Toast.LENGTH_SHORT).show()
-                    },
-                    onError = {
-                        Log.d("LogDetailFragment", "Error saving entry: $it")
-                        Toast.makeText(
-                            context,
-                            "Failed to save the log entry, sorry.",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                ).apply {
+                onComplete = {
+                    Toast.makeText(context, "Log entry saved!", Toast.LENGTH_SHORT).show()
+                    findNavController().popBackStack()
+                },
+                onError = {
+                    Log.d("LogDetailFragment", "Error saving entry: $it")
+                    Toast.makeText(
+                        context,
+                        "Failed to save the log entry, sorry.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            ).apply {
                     compositeDisposable.add(this)
                 }
-            findNavController().navigate(R.id.logListFragment)
         }
     }
 
