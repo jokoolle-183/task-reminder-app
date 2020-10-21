@@ -57,6 +57,7 @@ class AddLogEntryFragment : DaggerFragment() {
             ViewModelProvider(
                 requireActivity(),
                 viewModelFactory
+
             ).get(AddLogEntryViewModel::class.java)
 
         fabSave.setOnClickListener {
